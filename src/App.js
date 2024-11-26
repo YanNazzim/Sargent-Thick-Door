@@ -28,12 +28,13 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
       {/* Dropdown Menu */}
-      <div style={{ width: '20vw', padding: '10px', backgroundColor: '#f4f4f4' }}>
+      <div style={{ width: '40vw', padding: '10px', backgroundColor: '#f4f4f4' }}>
         <h3>Select Components</h3>
         {Object.keys(visibleObjects).map((key) => (
           <div key={key}>
-            <label>
+            <label className='label'>
               <input
+              className='checkbox'
                 type="checkbox"
                 name={key}
                 checked={visibleObjects[key]}
@@ -46,7 +47,7 @@ function App() {
       </div>
 
       {/* 3D Canvas */}
-      <div style={{ width: '80vw' }}>
+      <div style={{ width: '60vw' }}>
         <Canvas camera={{ position: [5, 5, 5] }}>
           <ambientLight intensity={0.5} />
           <directionalLight position={[54, 10, 5]} intensity={1} />
