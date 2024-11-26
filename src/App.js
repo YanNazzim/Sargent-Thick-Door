@@ -11,13 +11,13 @@ import Cover from './components/Cover';
 
 function App() {
   const [visibleObjects, setVisibleObjects] = useState({
-    chassis: false,
-    cover: false,
-    rail: false,
-    trim: false,
-    screws: false,
-    spindle: false,
-    hideDoor: false, // Add a new state for hiding/cutting the door
+    chassis: true,
+    cover: true,
+    rail: true,
+    trim: true,
+    screws: true,
+    spindle: true,
+    hideDoor: true, // Add a new state for hiding/cutting the door
   });
 
   const handleVisibilityChange = (e) => {
@@ -48,7 +48,7 @@ function App() {
 
       {/* 3D Canvas */}
       <div style={{ width: '60vw' }}>
-        <Canvas camera={{ position: [5, 5, 5] }}>
+        <Canvas camera={{ position: [55, 55, 55] }}>
           <ambientLight intensity={0.5} />
           <directionalLight position={[54, 10, 5]} intensity={1} />
 

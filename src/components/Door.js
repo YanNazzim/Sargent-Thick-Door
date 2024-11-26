@@ -25,8 +25,8 @@ const Door = ({ hideDoor }) => {
           </mesh>
 
           {/* Invisible Cutout */}
-          <mesh position={[0, 40, 0]} castShadow>
-            <boxGeometry args={[10, 10, 2]} /> {/* Dimensions of the cutout */}
+          <mesh position={[-6, 0, 0]} castShadow>
+            <boxGeometry args={[30, 84, 1.75]} /> {/* Dimensions of the cutout */}
             <meshStandardMaterial
               color="brown"
               transparent
