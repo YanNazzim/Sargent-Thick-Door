@@ -56,10 +56,10 @@ function App() {
           <Door hideDoor={visibleObjects.hideDoor} />
 
           {/* Conditionally Render Components */}
-          {visibleObjects.chassis && <Chassis position={[14, 3, 1]} />}
+          {visibleObjects.chassis && <Chassis position={[14, 3, 1.25]} />}
           {visibleObjects.cover && <Cover position={[14, 3, 1.25]} />}
-          {visibleObjects.rail && <Rail position={[-1.5, 3, 1.25]} />}
-          {visibleObjects.trim && <ETTrim position={[14, 3, -1]} />}
+          {visibleObjects.rail && <Rail position={[-1.5, 3, 1.4]} />}
+          {visibleObjects.trim && <ETTrim position={[14, 3, -1.28]} />}
           {visibleObjects.screws && <Screws position={[14, -0.5, 0]} />}
           {visibleObjects.screws && <Screws position={[14, 6.6875, 0]} />}
           {visibleObjects.spindle && <Spindle position={[14, 2.1875, 0]} />}
