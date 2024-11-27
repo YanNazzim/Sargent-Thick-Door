@@ -10,12 +10,19 @@ import Chassis from "./components/Chassis";
 import Cover from "./components/Cover";
 import CVRTopCase from "./components/CVRTopCase";
 import SVRTopCase from "./components/SVRTopCase";
-import Rods from "./components/Rods";
+import SVRBottomCase from "./components/SVRBottomCase";
+import CVRRods from "./components/CVRRods";
+import SVRRods from "./components/SVRRods";
+import PartNumbers from "./components/PartNumbers";
 
 function App() {
-  const [thickness, setThickness] = useState(1.75); // Default door thickness
+  // Default thickness
+  const [thickness, setThickness] = useState("1.75\"");
 
+  // Lock type state
   const [lockType, setLockType] = useState("CVR");
+
+  // Visibility state
   const [visibleObjects, setVisibleObjects] = useState({
     chassis: true,
     cover: true,
@@ -26,9 +33,27 @@ function App() {
     hideDoor: true,
   });
 
-  const handleDropdownChange = (e) => {
-    const value = e.target.value;
-    setLockType(value);
+  // Predefined door thickness options with fractional equivalents
+  const thicknessOptions = [
+    { value: '1.75"', label: '1-3/4"' },
+    { value: '2.0"', label: '2"' },
+    { value: '2.25"', label: '2-1/4"' },
+    { value: '2.5"', label: '2-1/2"' },
+    { value: '2.5625"', label: '2-9/16"' },
+    { value: '2.75"', label: '2-3/4"' },
+    { value: '3.0"', label: '3"' },
+    { value: '3.25"', label: '3-1/4"' },
+    { value: '3.5"', label: '3-1/2"' },
+    { value: '3.75"', label: '3-3/4"' },
+    { value: '4.0"', label: '4"' },
+    { value: '4.25"', label: '4-1/4"' },
+    { value: '4.5"', label: '4-1/2"' },
+    { value: '4.75"', label: '4-3/4"' },
+    { value: '5.0"', label: '5"' },
+  ];
+
+  const handleLockTypeChange = (e) => {
+    setLockType(e.target.value);
   };
 
   const handleVisibilityChange = (e) => {
@@ -37,26 +62,25 @@ function App() {
   };
 
   const handleThicknessChange = (e) => {
-    const value = parseFloat(e.target.value);
-    if (!isNaN(value) && value > 0) {
-      setThickness(value);
-    }
+    setThickness(e.target.value);
   };
 
   // Calculate dynamic Z-offset (distance from door center to the surface)
-  const zOffset = thickness / 2;
+  const zOffset = parseFloat(thickness) / 2;
 
   return (
     <div style={{ display: "flex", flexDirection: "row", height: "100vh" }}>
       {/* Controls Panel */}
-      <div style={{ width: "40vw", padding: "10px", backgroundColor: "#f4f4f4" }}>
+      <div
+        style={{ width: "40vw", padding: "10px", backgroundColor: "#f4f4f4" }}
+      >
         <h3>Component Controls</h3>
 
         {/* Dropdown for Lock Type */}
         <div style={{ marginBottom: "20px" }}>
           <label>
             Select Exit Device Type:{" "}
-            <select value={lockType} onChange={handleDropdownChange}>
+            <select value={lockType} onChange={handleLockTypeChange}>
               <option value="CVR">CVR</option>
               <option value="SVR">SVR</option>
               <option value="Mortise">Mortise</option>
@@ -65,21 +89,25 @@ function App() {
           </label>
         </div>
 
-        {/* Thickness Control */}
-        <div style={{ marginBottom: "20px", padding: "10px", border: "1px solid #ccc", borderRadius: "5px" }}>
+        {/* Dropdown for Door Thickness */}
+        <div
+          style={{
+            marginBottom: "20px",
+            padding: "10px",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+          }}
+        >
           <label>
-            Door Thickness (1.75" - 5"):
-            <input
-              type="number"
-              step="0.01"
-              min="1.75"
-              max="5"
-              value={thickness}
-              onChange={handleThicknessChange}
-              style={{ marginLeft: "10px", width: "100px" }}
-            />
+            Door Thickness:{" "}
+            <select value={thickness} onChange={handleThicknessChange}>
+              {thicknessOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.value} ({option.label})
+                </option>
+              ))}
+            </select>
           </label>
-          {thickness > 5 && <p style={{ color: "red" }}>Door thickness exceeds maximum available!</p>}
         </div>
 
         {/* Visibility Checkboxes */}
@@ -97,6 +125,9 @@ function App() {
             </label>
           </div>
         ))}
+
+        {/* Part Numbers Section */}
+        <PartNumbers thickness={thickness} />
       </div>
 
       {/* 3D Canvas */}
@@ -104,24 +135,49 @@ function App() {
         <Canvas camera={{ position: [55, 55, 55] }}>
           <ambientLight intensity={0.5} />
           <directionalLight position={[54, 10, 5]} intensity={1} />
-
           {/* Door Component */}
-          <Door hideDoor={visibleObjects.hideDoor} thickness={thickness} />
-
+          <Door hideDoor={visibleObjects.hideDoor} thickness={parseFloat(thickness)} />
           {/* Other Components with Dynamic Z-offset */}
-          {visibleObjects.chassis && <Chassis position={[14, 3, .37 + zOffset]} />} {/* Adjusted */}
-          {lockType === "CVR" && <CVRTopCase position={[14, 39.8, 0]} />} {/* Adjusted */}
-          {lockType === "SVR" && <SVRTopCase position={[14, 39.7, .6 + zOffset]} />} {/* Adjusted */}
-          {lockType === "SVR" && <SVRTopCase position={[14, -39, 1.5 + zOffset]} />} {/* Adjusted */}
-          {lockType === "CVR" && <Rods className="CVRRods" position={[14, 22, 0]} />} {/* Adjusted */}
-          {lockType === "SVR" && <Rods className="SVRRods" position={[14, 22, .5 + zOffset]} />} {/* Adjusted */}
-          {visibleObjects.cover && <Cover position={[14, 3, .67 + zOffset]} />} {/* Adjusted */}
-          {visibleObjects.rail && <Rail position={[-1.5, 3, .4 + zOffset]} />} {/* Adjusted */}
-          {visibleObjects.trim && <ETTrim position={[14, 3, -.39 - zOffset]} />}
-          {visibleObjects.screws && <Screws position={[14, -0.5, 1.2 - zOffset]} />} {/* Adjusted */}
-          {visibleObjects.screws && <Screws position={[14, 6.6875, 1.2 - zOffset]} />} {/* Adjusted */}
-          {visibleObjects.spindle && <Spindle position={[14, 2.1875, 1.2 - zOffset]} />} {/* Adjusted */}
-
+          {visibleObjects.chassis && (
+            <Chassis position={[14, 3, 0.35 + zOffset]} />
+          )}
+          {lockType === "CVR" && <CVRTopCase position={[14, 39.8, 0]} />}
+          {lockType === "SVR" && (
+            <SVRTopCase position={[14, 39.7, 0.6 + zOffset]} />
+          )}
+          {lockType === "SVR" && (
+            <SVRBottomCase position={[14, -39, 0.6 + zOffset]} />
+          )}
+          {lockType === "CVR" && (
+            <CVRRods className="CVRRods" position={[14, 22, 0]} />
+          )}
+          {lockType === "SVR" && (
+            <SVRRods className="SVRTopRod" position={[14, 22, 0.5 + zOffset]} />
+          )}
+          {lockType === "SVR" && (
+            <SVRRods
+              className="SVRBottomRod"
+              position={[14, -18, 0.5 + zOffset]}
+            />
+          )}
+          {visibleObjects.cover && (
+            <Cover position={[14, 3, 0.67 + zOffset]} />
+          )}
+          {visibleObjects.rail && (
+            <Rail position={[-1.5, 3, 0.4 + zOffset]} />
+          )}
+          {visibleObjects.trim && (
+            <ETTrim position={[14, 3, -0.39 - zOffset]} />
+          )}
+          {visibleObjects.screws && (
+            <Screws position={[14, -0.5, 1.2 - zOffset]} />
+          )}
+          {visibleObjects.screws && (
+            <Screws position={[14, 6.6875, 1.2 - zOffset]} />
+          )}
+          {visibleObjects.spindle && (
+            <Spindle position={[14, 2.1875, 1.2 - zOffset]} />
+          )}
           <OrbitControls />
         </Canvas>
 
@@ -138,7 +194,8 @@ function App() {
             fontSize: "14px",
           }}
         >
-          Current Thickness: {thickness.toFixed(2)}"
+          Current Thickness: {thickness} (
+          {thicknessOptions.find((opt) => opt.value === thickness)?.label})
         </div>
       </div>
     </div>
