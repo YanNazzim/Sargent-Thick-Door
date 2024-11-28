@@ -1,9 +1,9 @@
 import React from 'react';
 
-const SVRRods = ({ position }) => {
+const SVRRods = ({ position, length }) => {
   return (
     <mesh position={position}>
-      <cylinderGeometry args={[0.3, 0.3, 38, 32]} /> {/* radiusTop, radiusBottom, height, radialSegments */}
+      <cylinderGeometry args={[0.3, 0.3, length, 32]} /> {/* radiusTop, radiusBottom, length, radialSegments */}
       <meshStandardMaterial color="gray" />
     </mesh>
   );

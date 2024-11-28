@@ -17,7 +17,7 @@ import PartNumbers from "./components/PartNumbers";
 
 function App() {
   // Default thickness
-  const [thickness, setThickness] = useState("1.75\"");
+  const [thickness, setThickness] = useState('1.75"');
 
   // Lock type state
   const [lockType, setLockType] = useState("CVR");
@@ -38,14 +38,17 @@ function App() {
     { value: '1.75"', label: '1-3/4"' },
     { value: '2.0"', label: '2"' },
     { value: '2.25"', label: '2-1/4"' },
+    { value: '2.375"', label: '2-3/8"' },
     { value: '2.5"', label: '2-1/2"' },
     { value: '2.5625"', label: '2-9/16"' },
     { value: '2.75"', label: '2-3/4"' },
     { value: '3.0"', label: '3"' },
     { value: '3.25"', label: '3-1/4"' },
+    { value: '3.375"', label: '3-3/8"' },
     { value: '3.5"', label: '3-1/2"' },
     { value: '3.75"', label: '3-3/4"' },
     { value: '4.0"', label: '4"' },
+    { value: '4.125"', label: '4-1/8"' },
     { value: '4.25"', label: '4-1/4"' },
     { value: '4.5"', label: '4-1/2"' },
     { value: '4.75"', label: '4-3/4"' },
@@ -74,6 +77,8 @@ function App() {
       <div
         style={{ width: "40vw", padding: "10px", backgroundColor: "#f4f4f4" }}
       >
+        <h1>Sargent Thick Door Tool</h1>
+        <p>Developed by: Yan Gonzalez</p>
         <h3>Component Controls</h3>
 
         {/* Dropdown for Lock Type */}
@@ -136,7 +141,10 @@ function App() {
           <ambientLight intensity={0.5} />
           <directionalLight position={[54, 10, 5]} intensity={1} />
           {/* Door Component */}
-          <Door hideDoor={visibleObjects.hideDoor} thickness={parseFloat(thickness)} />
+          <Door
+            hideDoor={visibleObjects.hideDoor}
+            thickness={parseFloat(thickness)}
+          />
           {/* Other Components with Dynamic Z-offset */}
           {visibleObjects.chassis && (
             <Chassis position={[14, 3, 0.35 + zOffset]} />
@@ -149,32 +157,60 @@ function App() {
             <SVRBottomCase position={[14, -39, 0.6 + zOffset]} />
           )}
           {lockType === "CVR" && (
-            <CVRRods className="CVRRods" position={[14, 22, 0]} />
+            <>
+              {/* CVR Top Rod */}
+              <CVRRods position={[14, 22, 0]} length={32} />{" "}
+              {/* Default Top Rod */}
+              {/* CVR Bottom Rod */}
+              <CVRRods position={[14, -22, 0]} length={36} />{" "}
+              {/* Extended Bottom Rod */}
+            </>
           )}
+
           {lockType === "SVR" && (
-            <SVRRods className="SVRTopRod" position={[14, 22, 0.5 + zOffset]} />
+            <>
+              {/* SVR Top Rod */}
+              <SVRRods position={[14, 24, 0.5 + zOffset]} length={35} />{" "}
+              {/* Default Top Rod */}
+              {/* SVR Bottom Rod */}
+              <SVRRods position={[14, -18, 0.5 + zOffset]} length={42} />{" "}
+              {/* Extended Bottom Rod */}
+            </>
           )}
-          {lockType === "SVR" && (
-            <SVRRods
-              className="SVRBottomRod"
-              position={[14, -18, 0.5 + zOffset]}
-            />
-          )}
-          {visibleObjects.cover && (
-            <Cover position={[14, 3, 0.67 + zOffset]} />
-          )}
-          {visibleObjects.rail && (
-            <Rail position={[-1.5, 3, 0.4 + zOffset]} />
-          )}
+
+          {visibleObjects.cover && <Cover position={[14, 3, 0.67 + zOffset]} />}
+          {visibleObjects.rail && <Rail position={[-1.5, 3, 0.4 + zOffset]} />}
           {visibleObjects.trim && (
             <ETTrim position={[14, 3, -0.39 - zOffset]} />
           )}
-          {visibleObjects.screws && (
-            <Screws position={[14, -0.5, 1.2 - zOffset]} />
+          {visibleObjects.screws && lockType === "CVR" && (
+            <>
+              {/* Top screw offset to the left */}
+              <Screws
+                position={[14 - 0.5, 6.5, 0.85 + zOffset]} // Adjusted X position for left offset
+                thickness={parseFloat(thickness)}
+              />
+              {/* Bottom screw offset to the right */}
+              <Screws
+                position={[14 + 0.5, -0.275, 0.85 + zOffset]} // Adjusted X position for right offset
+                thickness={parseFloat(thickness)}
+              />
+            </>
           )}
-          {visibleObjects.screws && (
-            <Screws position={[14, 6.6875, 1.2 - zOffset]} />
+          {visibleObjects.screws && lockType !== "CVR" && (
+            <>
+              {/* Screws without offset for other lock types */}
+              <Screws
+                position={[14, 6.6875, 0.85 + zOffset]} // Default top screw position
+                thickness={parseFloat(thickness)}
+              />
+              <Screws
+                position={[14, -0.5, 0.85 + zOffset]} // Default bottom screw position
+                thickness={parseFloat(thickness)}
+              />
+            </>
           )}
+
           {visibleObjects.spindle && (
             <Spindle position={[14, 2.1875, 1.2 - zOffset]} />
           )}

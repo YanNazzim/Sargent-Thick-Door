@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Rods = ({ position }) => {
+const CVRRods = ({ position, length }) => {
   return (
     <mesh position={position}>
-      <cylinderGeometry args={[0.3, 0.3, 32, 32]} /> {/* radiusTop, radiusBottom, height, radialSegments */}
+      <cylinderGeometry args={[0.3, 0.3, length, 32]} /> {/* radiusTop, radiusBottom, length, radialSegments */}
       <meshStandardMaterial color="gray" />
     </mesh>
   );
 };
 
-export default Rods;
+export default CVRRods;
