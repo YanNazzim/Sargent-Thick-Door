@@ -1,12 +1,12 @@
 import React from 'react';
 
-const CVRInnerChassis = ({ position }) => {
+const MortiseCase = ({ position }) => {
   return (
     <mesh position={position}>
-      <boxGeometry args={[.775,5.125,1.325]} />
+      <boxGeometry args={[4,5.69,1.125]} />
       <meshStandardMaterial color="black" />
     </mesh>
   );
 };
 
-export default CVRInnerChassis;
+export default MortiseCase;
