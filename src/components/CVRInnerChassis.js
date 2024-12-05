@@ -3,8 +3,6 @@ import React from "react";
 const platePosition = [15.25, 9.7, 0];
 const rodPosition = [15.25, 5.5, 0];
 const botSquarePosition = [15.25, -3.95, 0];
-const holeRadius = 0.53125; // Radius of the hole
-const holeDepth = 1.375; // Depth of the hole
 const rodLength = 8.46
 
 const CVRInnerChassis = ({ position }) => {
