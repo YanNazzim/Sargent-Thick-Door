@@ -24,14 +24,14 @@ function App() {
   const [thickness, setThickness] = useState('1.75"');
   const [lockType, setLockType] = useState("CVR");
   const [visibleObjects, setVisibleObjects] = useState({
-    Chassis: true,
-    "Mortise Case": true,
-    "Inner Chassis": true,
-    Cover: true,
     Rail: true,
     Trim: true,
     Screws: true,
     Spindle: true,
+    Chassis: true,
+    "Chassis Cover": true,
+    "Mortise Case": true,
+    "Inner Chassis": true,
     "Top Rod": true,
     "Bottom Rod": true,
     "Ghost Door": true,
@@ -79,70 +79,81 @@ function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "row", height: "100vh" }}>
-{/* Hamburger Menu */}
-{!isPanelVisible && (
-  <button
-    onClick={() => setIsPanelVisible(true)}
-    style={{
-      position: "absolute",
-      top: "10px",
-      left: "10px",
-      zIndex: 1000,
-      background: isDarkMode ? "#222" : "#aaaaaa", // Adjusted dark mode colors
-      color: isDarkMode ? "#fff" : "#000",
-      border: "2px solid black",
-      borderRadius: "30px",
-      padding: "10px",
-      fontSize: "1.2em",
-      cursor: "pointer",
-    }}
-  >
-    ☰
-  </button>
-)}
-
-
-  {/* Controls Panel */}
-  <div
-  style={{
-    width: isPanelVisible ? (window.innerWidth >= 1024 ? "30vw" : "60vw") : "0",
-    overflow: isPanelVisible ? "auto" : "hidden",
-    padding: isPanelVisible ? "25px" : "0",
-    transition: "all 0.3s ease",
-    backgroundColor: isDarkMode ? "#1e1e1e" : "#f4f4f4", // Darker background in dark mode
-    color: isDarkMode ? "#f4f4f4" : "#333", // Lighter text in dark mode
-    borderRight: isPanelVisible ? "2px solid #444" : "none", // Darker border
-    boxSizing: "border-box",
-    boxShadow: isPanelVisible && isDarkMode ? "4px 0 8px rgba(0, 0, 0, 0.5)" : "none", // Shadow for panel in dark mode
-  }}
->
-
-
-    {isPanelVisible && (
-      <>
+      {/* Hamburger Menu */}
+      {!isPanelVisible && (
         <button
-          onClick={() => setIsPanelVisible(false)}
+          onClick={() => setIsPanelVisible(true)}
           style={{
             position: "absolute",
-            top: "10px",
-            right: "10px",
+            top: "20px",
+            left: "20px",
             zIndex: 1000,
-            background: isDarkMode ? "#222" : "#aaaaaa", // Adjusted dark mode colors
-            color: isDarkMode ? "#fff" : "#000",
-            border: "2px solid black",
-            borderRadius: "30px",
-            padding: "10px",
-            fontSize: "1.2em",
+            background: isDarkMode ? "#333" : "#aaaaaa",
+            color: isDarkMode ? "#fff" : "black", // White or dark text for contrast
+            border: "none", // Remove border
+            borderRadius: "50%", // Circular button
+            padding: "15px",
+            fontSize: "1.5em",
+            fontWeight: "bolder",
             cursor: "pointer",
+            transition: "background 0.3s ease, transform 0.3s ease", // Smooth transition on hover
           }}
+          onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} // Hover effect
+          onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
         >
-          ✖
+          ☰
         </button>
-            <h1
-              style={{ fontSize: "2.5em", marginBottom: "20px", color: "#333" }}
+      )}
+
+      {/* Controls Panel */}
+      <div
+        style={{
+          width: isPanelVisible
+            ? window.innerWidth >= 1024
+              ? "30vw"
+              : "60vw"
+            : "0",
+          overflow: isPanelVisible ? "auto" : "hidden",
+          padding: isPanelVisible ? "25px" : "0",
+          transition: "all 0.3s ease-in-out",
+          backgroundColor: isDarkMode ? "#1e1e1e" : "#f4f4f4", // Darker background in dark mode
+          color: isDarkMode ? "#f4f4f4" : "#333", // Lighter text in dark mode
+          borderRight: isPanelVisible ? "2px solid #444" : "none", // Darker border
+          boxSizing: "border-box",
+          boxShadow:
+            isPanelVisible && isDarkMode
+              ? "4px 0 8px rgba(0, 0, 0, 0.5)"
+              : "none", // Shadow for panel in dark mode
+        }}
+      >
+        {isPanelVisible && (
+          <>
+            <button
+              onClick={() => setIsPanelVisible(false)}
+              style={{
+                position: "absolute",
+                top: "20px",
+                right: "20px",
+                zIndex: 1000,
+                background: isDarkMode ? "#333" : "#aaaaaa",
+                color: isDarkMode ? "#fff" : "black", // White or dark text for contrast
+                border: "none",
+                borderRadius: "50%",
+                padding: "15px",
+                fontSize: "1.5em",
+                cursor: "pointer",
+                transition: "background 0.3s ease, transform 0.3s ease",
+              }}
+              onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
+              onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
             >
+              ✖
+            </button>
+
+            <h1 style={{ fontSize: "2.5em", marginBottom: "20px" }}>
               Sargent Thick Door Tool
             </h1>
+
             <div style={{ marginBottom: "20px" }}>
               <label
                 style={{ fontSize: "1.2em", fontWeight: "bold", color: "#444" }}
@@ -157,7 +168,8 @@ function App() {
                     fontSize: "1em",
                     borderRadius: "5px",
                     border: "1px solid #ccc",
-                    backgroundColor: "#fff",
+                    backgroundColor: isDarkMode ? "#333" : "#fff", // Consistent background color
+                    color: isDarkMode ? "#fff" : "#333", // Consistent text color
                   }}
                 >
                   <option value="CVR">CVR</option>
@@ -167,6 +179,7 @@ function App() {
                 </select>
               </label>
             </div>
+
             <div style={{ marginBottom: "20px" }}>
               <label
                 style={{ fontSize: "1.2em", fontWeight: "bold", color: "#444" }}
@@ -181,7 +194,8 @@ function App() {
                     fontSize: "1em",
                     borderRadius: "5px",
                     border: "1px solid #ccc",
-                    backgroundColor: "#fff",
+                    backgroundColor: isDarkMode ? "#333" : "#fff", // Consistent background color
+                    color: isDarkMode ? "#fff" : "#333", // Consistent text color
                   }}
                 >
                   {thicknessOptions.map((option) => (
@@ -193,6 +207,7 @@ function App() {
                 <PartNumbers thickness={thickness} />
               </label>
             </div>
+
             <div
               style={{
                 display: "grid",
@@ -231,6 +246,7 @@ function App() {
           </>
         )}
       </div>
+
       <ParticlesBackground />
       <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
 
@@ -280,7 +296,7 @@ function App() {
           {lockType === "SVR" && visibleObjects["Bottom Rod"] && (
             <SVRRods position={[15.25, -19, 0.5 + zOffset]} length={36} />
           )}
-          {visibleObjects["Cover"] && (
+          {visibleObjects["Chassis Cover"] && (
             <Cover position={[15.25, 0, 0.45 + zOffset]} />
           )}
           {visibleObjects["Rail"] && (
