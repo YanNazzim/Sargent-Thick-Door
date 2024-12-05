@@ -1,10 +1,12 @@
 import React from 'react';
+import { RoundedBox } from '@react-three/drei';
 
 const Cover = ({ position }) => {
   return (
     <mesh position={position}>
-      <boxGeometry args={[3,9,1.375]} />
+      <RoundedBox args={[2.2, 8.375, 0.95]} radius={.1}>
       <meshStandardMaterial color="gray" />
+      </RoundedBox>
     </mesh>
   );
 };

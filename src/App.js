@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import ParticlesBackground from "./components/ParticlesBackground"; // Adjust the path as needed
+import DarkModeToggle from "./components/DarkModeToggle"; // Import the DarkModeToggle
+
 import Door from "./components/Door";
 import Rail from "./components/Rail";
 import ETTrim from "./components/ETTrim";
@@ -224,6 +227,8 @@ function App() {
           </>
         )}
       </div>
+      <ParticlesBackground />
+      <DarkModeToggle />
 
       {/* 3D Canvas */}
       <div
@@ -272,7 +277,7 @@ function App() {
             <SVRRods position={[15.25, -19, 0.5 + zOffset]} length={36} />
           )}
           {visibleObjects["Cover"] && (
-            <Cover position={[15.25, 0, 0.67 + zOffset]} />
+            <Cover position={[15.25, 0, 0.45 + zOffset]} />
           )}
           {visibleObjects["Rail"] && (
             <Rail position={[-1.5, 0, 0.4 + zOffset]} />

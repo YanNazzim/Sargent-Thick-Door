@@ -6,13 +6,13 @@ const Rail = ({ position }) => {
       {/* Main Rail */}
       <mesh>
         <boxGeometry args={[31, 2.6, 1]} /> {/* Dimensions for the main rail */}
-        <meshStandardMaterial color="gray" />
+        <meshStandardMaterial color="Silver" />
       </mesh>
 
       {/* Push Portion */}
       <mesh position={[3.75, 0, .5]}>
         <boxGeometry args={[20, 2, 1]} /> {/* Dimensions for the push bar */}
-        <meshStandardMaterial color="darkgray" />
+        <meshStandardMaterial color="gray" />
       </mesh>
 
       {/* Lexan Pad */}

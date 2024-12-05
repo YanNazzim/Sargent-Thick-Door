@@ -17,7 +17,7 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
       {!hideDoor && (
         <mesh position={[0, 0, 0]} castShadow>
           <boxGeometry args={[36, 84, doorThickness]} />
-          <meshStandardMaterial color="red" />
+          <meshStandardMaterial color="blue" />
         </mesh>
       )}
 
@@ -26,9 +26,9 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
         <mesh position={[0, 0, 0]} castShadow>
           <boxGeometry args={[36, 84, doorThickness]} />
           <meshStandardMaterial
-            color="Gray"
+            color="black"
             transparent
-            opacity={0.5} // Optional transparency for the door
+            opacity={0.3} // Optional transparency for the door
           />
         </mesh>
       )}
