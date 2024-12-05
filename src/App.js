@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import ParticlesBackground from "./components/ParticlesBackground"; // Adjust the path as needed
 import DarkModeToggle from "./components/DarkModeToggle"; // Import the DarkModeToggle
 
 import Door from "./components/Door";
@@ -247,7 +246,6 @@ function App() {
         )}
       </div>
 
-      <ParticlesBackground />
       <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
 
       {/* 3D Canvas */}
