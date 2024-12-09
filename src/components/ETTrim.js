@@ -12,13 +12,13 @@ const ETTrim = ({ position }) => {
 
   return (
     <group position={position}>
-      {/* Main ETTrim Geometry */}
+      {/* ET Case */}
       <mesh>
         <boxGeometry args={[1.8125, 8.0625, 0.8125]} />
         <meshStandardMaterial color="silver" />
       </mesh>
 
-      {/* Hole 1 */}
+      {/* Cylinder HOle */}
       <mesh position={hole1Position} rotation={[Math.PI / 2, 0, 0]}>
         {" "}
         {/* Rotated 90 degrees around the x-axis */}
@@ -39,7 +39,7 @@ const ETTrim = ({ position }) => {
       <mesh position={leverHandlePosition} rotation={[Math.PI / 2, 0, 0]}>
         {" "}
         {/* Rotated 90 degrees around the x-axis */}
-        <boxGeometry args={[3.5, 0.55, 0.8125]} />
+        <boxGeometry args={[3.5, 0.35, 0.8125]} />
         <meshStandardMaterial color="black" />
       </mesh>
     </group>
