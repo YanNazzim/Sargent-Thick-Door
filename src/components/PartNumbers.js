@@ -34,13 +34,13 @@ const PartNumbers = ({ thickness }) => {
       tailpiece: "Standard = 13-0085",
     },
     '2.375"': {
-      auxScrews: '#10-24 x 3.000"',
+      auxScrews: '#10-24 x 2.750"',
       etScrews: '01-1549 \n(#1/4-20 x 3.000")',
       spindle: "Cross: 97-0541\nSquare = 97-0916",
       tailpiece: "Standard = 13-0085",
     },
     '2.5"': {
-      auxScrews: '#10-24 x 3.125"',
+      auxScrews: '#10-24 x 3.000"',
       etScrews: '01-1550 \n(#1/4-20 x 3.250")',
       spindle: "Cross: 97-0918\nSquare = 97-0920",
       tailpiece: 'Special = 3-13/16"',
