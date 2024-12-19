@@ -1,22 +1,45 @@
-import React from 'react';
+import React from "react";
 
-const Spindle = ({ position, thickness }) => {
-  // Base length of the spindle for 1.75" thickness
-  const baseLength = 2.780;
-
-  // Calculate spindle length based on door thickness
-  const extraLength = thickness - 1.75; // Additional length for thicker doors
-  const spindleLength = baseLength + extraLength;
-
-  // Adjust position to keep the spindle aligned
-  const spindlePosition = position.slice(); // Copy the original position
-  spindlePosition[2] -= spindleLength / 2; // Adjust for the length
+// Spindle component to render different spindle geometries (Square and Cross)
+const Spindle = ({ type, position, thickness }) => {
+  // Function to render spindle geometry based on its type (Square or Cross)
+  const renderSpindleGeometry = () => {
+    switch (type) {
+      case "Square":
+        // Render square spindle (1x1xthickness)
+        return (
+          <mesh>
+            <boxGeometry args={[1, 1, thickness]} />
+            <meshStandardMaterial color="blue" />
+          </mesh>
+        );
+        
+      case "Cross":
+        // Render cross spindle (combination of two box geometries)
+        return (
+          <group>
+            <mesh>
+              <boxGeometry args={[0.5, 1.5, thickness]} />
+              <meshStandardMaterial color="red" />
+            </mesh>
+            <mesh>
+              <boxGeometry args={[1.5, 0.5, thickness]} />
+              <meshStandardMaterial color="red" />
+            </mesh>
+          </group>
+        );
+        
+      default:
+        // Return null if the spindle type is unknown
+        return null;
+    }
+  };
 
   return (
-    <mesh position={spindlePosition}>
-      <boxGeometry args={[0.34375, 0.34375, spindleLength]} /> {/* Adjusted length */}
-      <meshStandardMaterial color="white" />
-    </mesh>
+    // Group that allows positioning the spindle in 3D space
+    <group position={position}>
+      {renderSpindleGeometry()}
+    </group>
   );
 };
 

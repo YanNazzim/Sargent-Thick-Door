@@ -178,6 +178,31 @@ function App() {
                 </select>
               </label>
             </div>
+            <div style={{ marginBottom: "20px" }}>
+              <label
+                style={{ fontSize: "1.2em", fontWeight: "bold", color: "#444" }}
+              >
+                Select Model:
+                <select
+                  value={lockType}
+                  onChange={handleLockTypeChange}
+                  style={{
+                    marginLeft: "10px",
+                    padding: "10px",
+                    fontSize: "1em",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                    backgroundColor: isDarkMode ? "#333" : "#fff", // Consistent background color
+                    color: isDarkMode ? "#fff" : "#333", // Consistent text color
+                  }}
+                >
+                  <option value="Square Spindle">Square Spindle</option>
+                  <option value="Cross Spindle">Cross Spindle</option>
+                  <option value="Cammed 1">Cammed Spindle (Exits)</option>
+                  <option value="Cammed 2">Cammed Spindle (Multipoint)</option>
+                </select>
+              </label>
+            </div>
 
             <div style={{ marginBottom: "20px" }}>
               <label
