@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import DarkModeToggle from "./components/DarkModeToggle"; // Import the DarkModeToggle
+import DarkModeToggle from "./components/DarkModeToggle";
 
 import Door from "./components/Door";
 import Rail from "./components/Rail";
@@ -22,6 +22,8 @@ import MortiseCase from "./components/MortiseCase";
 function App() {
   const [thickness, setThickness] = useState('1.75"');
   const [lockType, setLockType] = useState("CVR");
+  const [deviceType, setDeviceType] = useState("8600");
+  const [functionType, setFunctionType] = useState("06"); // Added for function selection
   const [visibleObjects, setVisibleObjects] = useState({
     Rail: true,
     Trim: true,
@@ -37,8 +39,6 @@ function App() {
     "Ghost Frame": true,
   });
   const [isPanelVisible, setIsPanelVisible] = useState(true);
-
-  // Define isDarkMode state
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const thicknessOptions = [
@@ -68,12 +68,71 @@ function App() {
     { value: '5.0"', label: '5"' },
   ];
 
-  const handleLockTypeChange = (e) => setLockType(e.target.value);
+  const deviceLists = {
+    SVR: ["NB-8700", "8700", "9700"],
+    CVR: ["8400", "8600", "9400"],
+    Rim: ["8500", "8800", "9800"],
+    Mortise: ["8300", "8900", "9900"],
+  };
+
+  const functionLists = {
+    8300: ["04", "10", "13", "15", "40", "43", "44", "73", "74", "75", "76"],
+    8400: ["06", "10", "13", "15", "40", "43", "46", "73", "74"],
+    8500: ["04", "06", "10", "13", "15", "40", "43", "44", "46", "73", "74"],
+    8600: ["06", "10", "13", "15", "40", "43", "46", "73", "74"],
+    8700: ["06", "10", "13", "15", "40", "43", "46", "73", "74"],
+    "NB-8700": ["06", "10", "13", "15", "40", "43", "46", "73", "74"],
+    8800: [
+      "04",
+      "06",
+      "10",
+      "13",
+      "15",
+      "40",
+      "43",
+      "44",
+      "46",
+      "73",
+      "74",
+      "75",
+      "76",
+    ],
+    8900: [
+      "04",
+      "06",
+      "10",
+      "13",
+      "15",
+      "40",
+      "43",
+      "44",
+      "73",
+      "74",
+      "75",
+      "76",
+    ],
+    9400: ["01", "02", "03"],
+    9700: ["04", "07", "11"],
+  };
+
+  const handleLockTypeChange = (e) => {
+    setLockType(e.target.value);
+    setDeviceType("");
+    setFunctionType("");
+  };
+
+  const handleDeviceTypeChange = (e) => {
+    setDeviceType(e.target.value);
+    setFunctionType("");
+  };
+
+  const handleFunctionTypeChange = (e) => setFunctionType(e.target.value);
+  const handleThicknessChange = (e) => setThickness(e.target.value);
   const handleVisibilityChange = (e) => {
     const { name, checked } = e.target;
     setVisibleObjects((prev) => ({ ...prev, [name]: checked }));
   };
-  const handleThicknessChange = (e) => setThickness(e.target.value);
+
   const zOffset = parseFloat(thickness) / 2;
 
   return (
@@ -88,23 +147,21 @@ function App() {
             left: "20px",
             zIndex: 1000,
             background: isDarkMode ? "#333" : "#aaaaaa",
-            color: isDarkMode ? "#fff" : "black", // White or dark text for contrast
-            border: "none", // Remove border
-            borderRadius: "50%", // Circular button
+            color: isDarkMode ? "#fff" : "black",
+            border: "none",
+            borderRadius: "50%",
             padding: "15px",
             fontSize: "1.5em",
             fontWeight: "bolder",
             cursor: "pointer",
-            transition: "background 0.3s ease, transform 0.3s ease", // Smooth transition on hover
           }}
-          onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} // Hover effect
-          onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
         >
           ☰
         </button>
       )}
 
       {/* Controls Panel */}
+
       <div
         style={{
           width: isPanelVisible
@@ -115,14 +172,12 @@ function App() {
           overflow: isPanelVisible ? "auto" : "hidden",
           padding: isPanelVisible ? "25px" : "0",
           transition: "all 0.3s ease-in-out",
-          backgroundColor: isDarkMode ? "#1e1e1e" : "#f4f4f4", // Darker background in dark mode
-          color: isDarkMode ? "#f4f4f4" : "#333", // Lighter text in dark mode
-          borderRight: isPanelVisible ? "2px solid #444" : "none", // Darker border
+          backgroundColor: isDarkMode ? "#1e1e1e" : "#f4f4f4",
+          color: isDarkMode ? "#f4f4f4" : "#333",
+          borderRight: isPanelVisible ? "2px solid #444" : "none",
           boxSizing: "border-box",
-          boxShadow:
-            isPanelVisible && isDarkMode
-              ? "4px 0 8px rgba(0, 0, 0, 0.5)"
-              : "none", // Shadow for panel in dark mode
+          boxShadow: isPanelVisible ? "4px 0 8px rgba(0, 0, 0, 0.5)" : "none",
+          position: "relative", // Ensure button is positioned relative to the panel
         }}
       >
         {isPanelVisible && (
@@ -135,16 +190,13 @@ function App() {
                 right: "20px",
                 zIndex: 1000,
                 background: isDarkMode ? "#333" : "#aaaaaa",
-                color: isDarkMode ? "#fff" : "black", // White or dark text for contrast
+                color: isDarkMode ? "#fff" : "black",
                 border: "none",
                 borderRadius: "50%",
                 padding: "15px",
                 fontSize: "1.5em",
                 cursor: "pointer",
-                transition: "background 0.3s ease, transform 0.3s ease",
               }}
-              onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
-              onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
             >
               ✖
             </button>
@@ -153,73 +205,94 @@ function App() {
               Sargent Thick Door Tool
             </h1>
 
+            {/* Dropdowns */}
             <div style={{ marginBottom: "20px" }}>
-              <label
-                style={{ fontSize: "1.2em", fontWeight: "bold", color: "#444" }}
-              >
-                Select Exit Device Type:
+              <label style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+                Exit Device Type:
                 <select
                   value={lockType}
                   onChange={handleLockTypeChange}
                   style={{
                     marginLeft: "10px",
+                    minWidth: "8vw",
+                    borderRadius: "25px",
                     padding: "10px",
                     fontSize: "1em",
-                    borderRadius: "5px",
-                    border: "1px solid #ccc",
-                    backgroundColor: isDarkMode ? "#333" : "#fff", // Consistent background color
-                    color: isDarkMode ? "#fff" : "#333", // Consistent text color
+                    textAlign: "Center",
                   }}
                 >
-                  <option value="CVR">CVR</option>
-                  <option value="SVR">SVR</option>
-                  <option value="Mortise">Mortise</option>
-                  <option value="Rim">Rim</option>
+                  {Object.keys(deviceLists).map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
               </label>
             </div>
             <div style={{ marginBottom: "20px" }}>
-              <label
-                style={{ fontSize: "1.2em", fontWeight: "bold", color: "#444" }}
-              >
-                Select Model:
+              <label style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+                Model:
                 <select
-                  value={lockType}
-                  onChange={handleLockTypeChange}
+                  value={deviceType}
+                  onChange={handleDeviceTypeChange}
                   style={{
+                    marginLeft: "10px",
+                    minWidth: "8vw",
+                    padding: "10px",
+                    borderRadius: "25px",
+                    textAlign: "Center",
+                    fontSize: "1em",
+                  }}
+                >
+                  {(deviceLists[lockType] || []).map((model) => (
+                    <option key={model} value={model}>
+                      {model}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+                Function:
+                <select
+                  value={functionType}
+                  onChange={handleFunctionTypeChange}
+                  style={{
+                    minWidth: "8vw",
+                    textAlign: "Center",
                     marginLeft: "10px",
                     padding: "10px",
                     fontSize: "1em",
-                    borderRadius: "5px",
-                    border: "1px solid #ccc",
-                    backgroundColor: isDarkMode ? "#333" : "#fff", // Consistent background color
-                    color: isDarkMode ? "#fff" : "#333", // Consistent text color
+                    borderRadius: "25px",
                   }}
                 >
-                  <option value="Square Spindle">Square Spindle</option>
-                  <option value="Cross Spindle">Cross Spindle</option>
-                  <option value="Cammed 1">Cammed Spindle (Exits)</option>
-                  <option value="Cammed 2">Cammed Spindle (Multipoint)</option>
+                  {(functionLists[deviceType] || []).map((func) => (
+                    <option key={func} value={func}>
+                      {func}
+                    </option>
+                  ))}
                 </select>
               </label>
             </div>
 
+            {/* Door Thickness */}
             <div style={{ marginBottom: "20px" }}>
-              <label
-                style={{ fontSize: "1.2em", fontWeight: "bold", color: "#444" }}
-              >
+              <label style={{ fontSize: "1.2em", fontWeight: "bold" }}>
                 Door Thickness:
                 <select
                   value={thickness}
                   onChange={handleThicknessChange}
                   style={{
                     marginLeft: "10px",
+                    minWidth: "8vw",
+                    textAlign: "Center",
                     padding: "10px",
                     fontSize: "1em",
-                    borderRadius: "5px",
+                    borderRadius: "25px",
                     border: "1px solid #ccc",
-                    backgroundColor: isDarkMode ? "#333" : "#fff", // Consistent background color
-                    color: isDarkMode ? "#fff" : "#333", // Consistent text color
+                    backgroundColor: isDarkMode ? "#333" : "#fff",
+                    color: isDarkMode ? "#fff" : "#333",
                   }}
                 >
                   {thicknessOptions.map((option) => (
@@ -228,16 +301,17 @@ function App() {
                     </option>
                   ))}
                 </select>
-                <PartNumbers thickness={thickness} />
               </label>
             </div>
 
+            {/* Checkboxes for visibility */}
             <div
               style={{
+                marginTop: "20px",
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
                 gap: "15px",
-                fontSize: "1.2em",
+                fontSize: "1em",
               }}
             >
               {Object.keys(visibleObjects).map((key) => (
@@ -249,6 +323,11 @@ function App() {
                       fontWeight: "bold",
                       color: "#333",
                       cursor: "pointer",
+                      border: "5px solid black",
+                      borderRadius: "25px",
+                      backgroundColor: "white",
+                      padding: "10px",
+                      fontSize: "1.5em",
                     }}
                   >
                     <input
@@ -267,9 +346,58 @@ function App() {
                 </div>
               ))}
             </div>
+
+            <div style={{ margin: "20px", fontSize: "1.5em" }}>
+              Device Shown:{" "}
+              {lockType && deviceType && functionType
+                ? `${deviceType.slice(0, -2)}${functionType}` // Concatenate the device and function
+                : "Select all options"}
+              <PartNumbers thickness={thickness} />
+            </div>
+            {/* Button at the bottom */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: "20px", // Slightly above the bottom
+                left: "50%",
+                transform: "translateX(-50%)",
+                textAlign: "center",
+              }}
+            >
+              <a
+                href="https://sargent-templates.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-block",
+                  padding: "15px 30px",
+                  fontSize: "1.2em",
+                  fontWeight: "bold",
+                  color: "#fff",
+                  backgroundColor: "#007BFF",
+                  borderRadius: "25px",
+                  textDecoration: "none",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                  transition: "background-color 0.3s ease, transform 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = "#0056b3";
+                  e.target.style.transform = "scale(0.95)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = "#007BFF";
+                  e.target.style.transform = "scale(1)";
+                }}
+              >
+                Need Templates? <br />
+                Check out our Template Lookup Tool!
+              </a>
+            </div>
           </>
         )}
       </div>
+
+      <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
 
       <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
 
@@ -326,7 +454,7 @@ function App() {
             <Rail position={[-1.5, 0, 0.4 + zOffset]} />
           )}
           {visibleObjects["Trim"] && (
-            <ETTrim position={[15.25, 0, -0.39 - zOffset]} />
+            <ETTrim position={[15.25, 0, -0.4 - zOffset]} />
           )}
           {visibleObjects["Screws"] && lockType === "CVR" && (
             <>
@@ -352,12 +480,15 @@ function App() {
               />
             </>
           )}
-          {visibleObjects["Spindle"] && (
+          {visibleObjects["Spindle"] && deviceType !== "9400" && (
             <Spindle
-              position={[15.25, -1.35, 0.25 + zOffset]}
-              thickness={parseFloat(thickness)}
+              position={[15.25, -1.35, 0]} // Example position
+              thickness={parseFloat(thickness)} // Ensure thickness is a number
+              trimDepth={1} // Depth of the trim
+              chassisOffset={0.25} // Distance from trim to chassis
             />
           )}
+
           <OrbitControls />
         </Canvas>
       </div>
