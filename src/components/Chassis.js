@@ -1,14 +1,31 @@
-import React from 'react';
-import { RoundedBox } from '@react-three/drei';
+import React from "react";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-const Chassis = ({ position }) => {
+const Chassis = ({ position, parts = [] }) => {
+  // Load the base chassis model
+  const chassisModel = useLoader(GLTFLoader, "/models/ChassisBlank.gltf");
+
   return (
-    <mesh position={position}>
-      {/* Use RoundedBox for rounded corners */}
-      <RoundedBox args={[2, 7.875, 0.75]} radius={0.1}>
-        <meshStandardMaterial color="gray" />
-      </RoundedBox>
-    </mesh>
+    <group position={position}>
+      {/* Chassis Base */}
+      <primitive
+        rotation={[Math.PI, Math.PI, 0]} // Default no rotation
+        object={chassisModel.scene}
+        position={[0, 41, -.375]} // Adjust as necessary
+        scale={[30, 30, 30]} // Adjust scale to match your scene
+      />
+
+      {/* Additional Parts */}
+      {parts.map((part, index) => (
+        <primitive
+          key={index}
+          object={part.model.scene}
+          position={part.position || [0, 0, 0]} // Default to [0, 0, 0] if no position is provided
+          scale={part.scale || [30, 30, 30]} // Default scale
+        />
+      ))}
+    </group>
   );
 };
 

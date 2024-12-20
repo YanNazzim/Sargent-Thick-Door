@@ -1,6 +1,11 @@
 import React from "react";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-const Screws = ({ position, thickness }) => {
+const Screws = ({ topPosition, bottomPosition, thickness }) => {
+  // Load the GLTF model
+  const gltf = useLoader(GLTFLoader, "/models/ETThrubolt.gltf");
+
   // Base length of the screw for 1.75" thickness
   const baseLength = 2.8;
 
@@ -8,18 +13,22 @@ const Screws = ({ position, thickness }) => {
   const extraLength = thickness - 1.75; // Additional length for thicker doors
   const screwLength = baseLength + extraLength;
 
-  // Calculate offset to keep screws slightly visible on the chassis side
-  const chassisOffset = -0.05; // Slight visibility from the chassis side
-
-  // Calculate new position on the Z-axis to align screws correctly
-  const screwPosition = position.slice(); // Copy the original position
-  screwPosition[2] += chassisOffset - screwLength / 2; // Adjust for length and visibility
+  // Calculate scale, ensuring the base scale starts at 30 for X and Y
+  const baseScale = 30;
+  const zScale = (screwLength / baseLength) * baseScale; // Scale Z proportionally
 
   return (
-    <mesh position={screwPosition}>
-      <boxGeometry args={[0.22, 0.22, screwLength]} /> {/* Adjusted length */}
-      <meshStandardMaterial color="black" />
-    </mesh>
+    <group>
+      {/* Top Screw */}
+      <group position={topPosition} scale={[baseScale, baseScale, zScale]}>
+        <primitive object={gltf.scene.clone()} />
+      </group>
+
+      {/* Bottom Screw */}
+      <group position={bottomPosition} scale={[baseScale, baseScale, zScale]}>
+        <primitive object={gltf.scene.clone()} />
+      </group>
+    </group>
   );
 };
 

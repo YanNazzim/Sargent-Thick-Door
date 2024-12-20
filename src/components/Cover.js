@@ -1,13 +1,16 @@
-import React from 'react';
-import { RoundedBox } from '@react-three/drei';
+import React from "react";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 const Cover = ({ position }) => {
+  // Load the GLTF model
+  const gltf = useLoader(GLTFLoader, "/models/ChassisCover.gltf");
+
   return (
-    <mesh position={position}>
-      <RoundedBox args={[2.2, 8.375, 0.95]} radius={.1}>
-      <meshStandardMaterial color="gray" />
-      </RoundedBox>
-    </mesh>
+    <group position={position} scale={[30, 30, 30]} rotation={[Math.PI/2,3 * Math.PI / 2,0]}>
+      {/* Display the GLTF model */}
+      <primitive object={gltf.scene} />
+    </group>
   );
 };
 

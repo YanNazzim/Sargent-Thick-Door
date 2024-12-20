@@ -11,11 +11,14 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
   const outerHeight = 84 + frameThickness; // Total height of the frame
   const frameDepth = doorThickness + 2 * frameZExtension; // Frame depth beyond the door
 
+  // Calculate Y offset to align bottom of the door to y = 0
+  const yOffset = outerHeight / 2;
+
   return (
     <group>
       {/* Full Door */}
       {!hideDoor && (
-        <mesh position={[0, 0, 0]} castShadow>
+        <mesh position={[0, yOffset, 0]} castShadow>
           <boxGeometry args={[36, 84, doorThickness]} />
           <meshStandardMaterial color="blue" />
         </mesh>
@@ -23,7 +26,7 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
 
       {/* Door with Cutout */}
       {hideDoor && (
-        <mesh position={[0, 0, 0]} castShadow>
+        <mesh position={[0, yOffset, 0]} castShadow>
           <boxGeometry args={[36, 84, doorThickness]} />
           <meshStandardMaterial
             color="black"
@@ -38,7 +41,7 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
         <group>
           {/* Top Frame */}
           <mesh
-            position={[0, outerHeight / 1.9875, 0]}
+            position={[0, outerHeight - frameThickness / 2, 0]}
             castShadow
           >
             <boxGeometry args={[outerWidth, frameThickness, frameDepth]} />
@@ -51,7 +54,7 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
 
           {/* Bottom Frame */}
           <mesh
-            position={[0, -outerHeight / 1.9875, 0]}
+            position={[0, frameThickness / 2, 0]}
             castShadow
           >
             <boxGeometry args={[outerWidth, frameThickness, frameDepth]} />
@@ -64,7 +67,7 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
 
           {/* Left Frame */}
           <mesh
-            position={[-outerWidth / 2, 0, 0]}
+            position={[-outerWidth / 2, yOffset, 0]}
             castShadow
           >
             <boxGeometry args={[frameThickness, outerHeight, frameDepth]} />
@@ -77,7 +80,7 @@ const Door = ({ hideDoor, hideFrame, ghostFrame, thickness = 1.75 }) => {
 
           {/* Right Frame */}
           <mesh
-            position={[outerWidth / 1.9875, 0, 0]}
+            position={[outerWidth / 2, yOffset, 0]}
             castShadow
           >
             <boxGeometry args={[frameThickness, outerHeight, frameDepth]} />

@@ -7,7 +7,7 @@ import Door from "./components/Door";
 import Rail from "./components/Rail";
 import ETTrim from "./components/ETTrim";
 import Screws from "./components/Screws";
-import Spindle from "./components/Spindle";
+import SquareSpindle from "./components/SquareSpindle";
 import Chassis from "./components/Chassis";
 import Cover from "./components/Cover";
 import CVRTopCase from "./components/CVRTopCase";
@@ -253,7 +253,13 @@ function App() {
               </label>
             </div>
 
-            <PartNumbers thickness={thickness}/>
+            <div style={{ margin: "20px", fontSize: "1.5em" }}>
+              Device Shown:{" "}
+              {lockType && deviceType && functionType
+                ? `${deviceType.slice(0, -2)}${functionType}` // Concatenate the device and function
+                : "Select all options"}
+              <PartNumbers thickness={thickness} />
+            </div>
             {/* Checkboxes for visibility */}
             <div
               style={{
@@ -318,7 +324,8 @@ function App() {
                     borderRadius: "25px",
                     textDecoration: "none",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    transition: "background-color 0.3s ease, transform 0.3s ease",
+                    transition:
+                      "background-color 0.3s ease, transform 0.3s ease",
                   }}
                   onMouseEnter={(e) => {
                     e.target.style.backgroundColor = "#0056b3";
@@ -389,44 +396,34 @@ function App() {
             <SVRRods position={[15.25, -19, 0.5 + zOffset]} length={36} />
           )}
           {visibleObjects["Chassis Cover"] && (
-            <Cover position={[15.25, 0, 0.45 + zOffset]} />
+            <Cover position={[15.25, 41, 0 + zOffset]} />
           )}
           {visibleObjects["Rail"] && (
-            <Rail position={[-1.5, 0, 0.4 + zOffset]} />
+            <Rail
+              position={[0, 0, 0]} // Base position of the rail
+              scale={[40, 40, 40]} // Scale the rail uniformly
+              rotations={{
+                insert: [0, Math.PI / 2, Math.PI / 2], // Rotate the insert 45° on Y-axis
+                push: [Math.PI / 2, Math.PI / 2, 0], // No rotation for the push
+                mounting: [0, Math.PI / 2, Math.PI / 2], // Rotate the mounting part 30° on Z-axis
+              }}
+            />
           )}
           {visibleObjects["Trim"] && (
-            <ETTrim position={[15.25, 0, -0.4 - zOffset]} />
+            <ETTrim position={[15.25, 41, 0.03 - zOffset]} />
           )}
-          {visibleObjects["Screws"] && lockType === "CVR" && (
-            <>
-              <Screws
-                position={[15.25 - 0.65, 3.5, 0.85 + zOffset]}
-                thickness={parseFloat(thickness)}
-              />
-              <Screws
-                position={[15.25 + 0.65, -3.275, 0.85 + zOffset]}
-                thickness={parseFloat(thickness)}
-              />
-            </>
+          {visibleObjects["Screws"] && (
+            <Screws
+              topPosition={[15.25, 43.775, 0.025 + zOffset]} // Top screw position
+              bottomPosition={[15.25, 38.2, 0.025 + zOffset]} // Bottom screw position
+              thickness={parseFloat(thickness)}
+            />
           )}
-          {visibleObjects["Screws"] && lockType !== "CVR" && (
-            <>
-              <Screws
-                position={[15.25, 3.6875, 0.85 + zOffset]}
-                thickness={parseFloat(thickness)}
-              />
-              <Screws
-                position={[15.25, -3.5, 0.85 + zOffset]}
-                thickness={parseFloat(thickness)}
-              />
-            </>
-          )}
-          {visibleObjects["Spindle"] && deviceType !== "9400" && (
-            <Spindle
-              position={[15.25, -1.35, 0]} // Example position
-              thickness={parseFloat(thickness)} // Ensure thickness is a number
-              trimDepth={1} // Depth of the trim
-              chassisOffset={0.25} // Distance from trim to chassis
+
+          {visibleObjects["Spindle"] && (
+            <SquareSpindle
+              position={[15.25, 41, 0]} // Example position
+              thickness={parseFloat(thickness)} // Ensure thickness is passed as a number
             />
           )}
 
