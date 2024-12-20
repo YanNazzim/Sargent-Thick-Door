@@ -167,15 +167,15 @@ const PartNumbers = ({ thickness }) => {
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Part</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <th style={{ border: "5px solid #ddd", padding: "8px" }}>Part</th>
+            <th style={{ border: "5px solid #ddd", padding: "8px" }}>
               Part Number
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <td style={{ border: "3px solid #ddd", padding: "8px" }}>
               Aux Screws
             </td>
             <td
@@ -185,7 +185,7 @@ const PartNumbers = ({ thickness }) => {
             </td>
           </tr>
           <tr>
-            <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <td style={{ border: "3px solid #ddd", padding: "8px" }}>
               Trim Screws
             </td>
             <td
@@ -195,7 +195,7 @@ const PartNumbers = ({ thickness }) => {
             </td>
           </tr>
           <tr>
-            <td style={{ border: "1px solid #ddd", padding: "8px" }}>Spindle</td>
+            <td style={{ border: "3px solid #ddd", padding: "8px" }}>Spindle</td>
             <td
               style={{ border: "1px solid #ddd", padding: "8px", whiteSpace: "pre-wrap" }}
             >
@@ -203,7 +203,7 @@ const PartNumbers = ({ thickness }) => {
             </td>
           </tr>
           <tr>
-            <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+            <td style={{ border: "3px solid #ddd", padding: "4px" }}>
               Tailpiece
             </td>
             <td
