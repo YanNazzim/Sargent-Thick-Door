@@ -2,29 +2,23 @@ import React from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-const Chassis = ({ position, parts = [] }) => {
+const Chassis = ({ position}) => {
   // Load the base chassis model
-  const chassisModel = useLoader(GLTFLoader, "/models/ChassisBlank.gltf");
+  const Chassis8800 = useLoader(GLTFLoader, "/models/ChassisBlank.gltf");
+  const Latchbolt8800 = useLoader(GLTFLoader, "/models/Latchbolt8800.gltf");
 
   return (
     <group position={position}>
-      {/* Chassis Base */}
+      {/* 8800 Chassis */}
       <primitive
         rotation={[Math.PI, Math.PI, 0]} // Default no rotation
-        object={chassisModel.scene}
+        object={Chassis8800.scene}
         position={[0, 41, -.375]} // Adjust as necessary
         scale={[30, 30, 30]} // Adjust scale to match your scene
       />
 
-      {/* Additional Parts */}
-      {parts.map((part, index) => (
-        <primitive
-          key={index}
-          object={part.model.scene}
-          position={part.position || [0, 0, 0]} // Default to [0, 0, 0] if no position is provided
-          scale={part.scale || [30, 30, 30]} // Default scale
-        />
-      ))}
+
+      ))
     </group>
   );
 };

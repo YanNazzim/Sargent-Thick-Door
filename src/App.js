@@ -29,9 +29,9 @@ import {
 
 function App() {
   const [thickness, setThickness] = useState('1.75"');
-  const [lockType, setLockType] = useState("CVR");
-  const [deviceType, setDeviceType] = useState("8600");
-  const [functionType, setFunctionType] = useState("06"); // Added for function selection
+  const [lockType, setLockType] = useState("Rim");
+  const [deviceType, setDeviceType] = useState("8800");
+  const [functionType, setFunctionType] = useState("13"); // Added for function selection
   const [visibleObjects, setVisibleObjects] = useState({
     Rail: true,
     Trim: true,
