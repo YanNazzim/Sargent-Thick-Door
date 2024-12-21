@@ -1,6 +1,6 @@
 import React from 'react';
 
-const facePlatePosition = [18,0,0]
+const facePlatePosition = [18,41,0]
 
 const MortiseCase = ({ position }) => {
   return (

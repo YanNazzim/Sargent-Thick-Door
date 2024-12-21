@@ -2,12 +2,12 @@ import React from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-const SquareSpindle = ({ position, thickness }) => {
-  // Load the GLTF model
-  const gltf = useLoader(GLTFLoader, "/models/SquareSpindle.gltf");
+const CrossSpindle = ({ position, thickness }) => {
+  // Load the GLTF model for Cross Spindle
+  const gltf = useLoader(GLTFLoader, "/models/CrossSpindle.gltf");
 
   // Base length for the spindle
-  const baseLength = 1.78; // Example base length (adjust as needed)
+  const baseLength = 2.78; // Example base length
 
   // Calculate the extra length based on the door thickness
   const extraLength = thickness - 1.75; // Additional length for thicker doors
@@ -21,9 +21,9 @@ const SquareSpindle = ({ position, thickness }) => {
 
   return (
     <group position={position} scale={[baseScale, baseScale, zScale]}>
-      <primitive object={gltf.scene} />
+      <primitive object={gltf.scene.clone()} /> {/* Use .clone() to avoid conflicts */}
     </group>
   );
 };
 
-export default SquareSpindle;
+export default CrossSpindle;

@@ -8,6 +8,7 @@ import Rail from "./components/Rail";
 import ETTrim from "./components/ETTrim";
 import Screws from "./components/Screws";
 import SquareSpindle from "./components/SquareSpindle";
+import CrossSpindle from "./components/CrossSpindle";
 import Chassis from "./components/Chassis";
 import Cover from "./components/Cover";
 import CVRTopCase from "./components/CVRTopCase";
@@ -367,16 +368,15 @@ function App() {
             thickness={parseFloat(thickness)}
           />
           {visibleObjects["Chassis"] && (
-            <Chassis position={[15.25, 0, 0.37 + zOffset]} />
+            <Chassis position={[15.25, 0, 0.375 + zOffset]} />
           )}
           {lockType === "Mortise" && visibleObjects["Mortise Case"] && (
-            <MortiseCase position={[15.975, 0, 0]} />
+            <MortiseCase position={[15.975, 41, 0]} />
           )}
           {lockType === "CVR" && visibleObjects["Inner Chassis"] && (
-            <CVRInnerChassis position={[15.25, -1.25, 0]} />
+            <CVRInnerChassis position={[15.25, 41, 0]} />
           )}
-          {lockType === "CVR" && <CVRTopCase position={[15.25, 39.8, 0]} />}
-          {lockType === "CVR" && <CVRTopCase position={[15.25, -39.8, 0]} />}
+          {lockType === "CVR" && <CVRTopCase position={[15.25, 82.05, 0 + zOffset]} />}
           {lockType === "SVR" && (
             <SVRTopCase position={[15.25, 39.7, 0.6 + zOffset]} />
           )}
@@ -410,21 +410,26 @@ function App() {
             />
           )}
           {visibleObjects["Trim"] && (
-            <ETTrim position={[15.25, 41, 0.03 - zOffset]} />
+            <ETTrim position={[15.25, 40.7875, 0.03 - zOffset]} />
           )}
           {visibleObjects["Screws"] && (
             <Screws
-              topPosition={[15.25, 43.775, 0.025 + zOffset]} // Top screw position
-              bottomPosition={[15.25, 38.2, 0.025 + zOffset]} // Bottom screw position
+              topPosition={[15.25, 43.5375, 0.025 + zOffset]} // Top screw position
+              bottomPosition={[15.25, 38.45, 0.025 + zOffset]} // Bottom screw position
               thickness={parseFloat(thickness)}
             />
           )}
-
           {visibleObjects["Spindle"] && (
-            <SquareSpindle
-              position={[15.25, 41, 0]} // Example position
-              thickness={parseFloat(thickness)} // Ensure thickness is passed as a number
-            />
+            <>
+              <SquareSpindle
+                position={[15.25, 39.7875, -.125 -zOffset]} 
+                thickness={parseFloat(thickness)}
+              />
+              <CrossSpindle
+                position={[15.25, 39.7875, -.125 -zOffset]} 
+                thickness={parseFloat(thickness)}
+              />
+            </>
           )}
 
           <OrbitControls />
