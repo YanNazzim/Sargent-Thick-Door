@@ -16,7 +16,12 @@ const Chassis = ({ position}) => {
         position={[0, 41, -.375]} // Adjust as necessary
         scale={[30, 30, 30]} // Adjust scale to match your scene
       />
-
+      <primitive
+        rotation={[Math.PI/2, 0, Math.PI]} // Default no rotation
+        object={Latchbolt8800.scene}
+        position={[0, 41, 0]} // Adjust as necessary
+        scale={[30, 30, 30]} // Adjust scale to match your scene
+      />
 
       ))
     </group>
