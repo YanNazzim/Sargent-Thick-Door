@@ -32,6 +32,10 @@ const Chassis = ({ position }) => {
     GLTFLoader,
     "/models/Cylinderspindlehub8800.gltf"
   );
+  const SecondOutsideCylHub8800 = useLoader(
+    GLTFLoader,
+    "/models/Cylinderspindlehub8800 Second.gltf"
+  );
 
   return (
     <group position={position}>
@@ -94,6 +98,12 @@ const Chassis = ({ position }) => {
         rotation={[0, Math.PI, Math.PI*2]} // Default no rotation
         object={OutsideCylHub8800.scene}
         position={[0, 39.795, 0.1005]} // Adjust as necessary
+        scale={[30, 30, 30]} // Adjust scale to match your scene
+      />
+            <primitive
+        rotation={[0, Math.PI, Math.PI*2]} // Default no rotation
+        object={SecondOutsideCylHub8800.scene}
+        position={[0, 42.205, 0.1005]} // Adjust as necessary
         scale={[30, 30, 30]} // Adjust scale to match your scene
       />
       ))
